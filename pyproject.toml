@@ -1,0 +1,16 @@
+[project]
+name = "assistant"
+version = "0.1.0"
+description = "Telegram to DeepAgent runtime for a personal assistant."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "deepagents>=0.0.15",
+  "langchain-openai>=0.3.0",
+]
+
+[project.optional-dependencies]
+dev = []
+
+[tool.uv]
+package = false
