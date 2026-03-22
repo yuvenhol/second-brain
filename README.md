@@ -16,7 +16,7 @@
 
 - 当前对话闭环：`Telegram -> DeepAgent -> Telegram`
 - 显式长期记忆：只有用户明确要求时才写入长期记忆
-- 每日 `09:00` 简报调度
+- 每日简报调度，默认时间为 `09:00`
 - `tech` 域：最近技术博客更新
 - `news` 域：财经、政治、军事、科技新闻聚合
 - 默认中文输出
@@ -32,7 +32,7 @@ flowchart LR
     RT --> TOOLS[Controlled Tools]
     TOOLS --> BLOGS[Tech Blogs]
     TOOLS --> NEWS[News Sources]
-    RT --> DIGEST[09:00 Digest Scheduler]
+    RT --> DIGEST[Configurable Digest Scheduler]
     DIGEST --> TG
 ```
 
@@ -134,7 +134,7 @@ uv run python -m channels.telegram.main
 当前代码已具备：
 
 - 可运行的 Telegram 对话闭环，后续可扩到飞书、微信等渠道
-- 可运行的 09:00 简报调度
+- 可运行的每日简报调度，默认时间为 `09:00`
 - 技术博客与新闻抓取工具
 - 安全默认值和回归测试
 
