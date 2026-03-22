@@ -2,7 +2,7 @@
 
 一个长期运行的个人生活与工作助手。
 
-它不是单纯的聊天机器人，而是一个围绕 `对话`、`长期记忆`、`主动推送` 和 `领域信息处理` 组织起来的单体系统。当前已经跑通最小闭环：
+它不是单纯的聊天机器人，而是一个围绕 `对话`、`长期记忆`、`主动推送` 和 `领域信息处理` 组织起来的单体系统。整体架构按多渠道扩展设计，当前先跑通了 Telegram 最小闭环：
 
 - Telegram Bot 接收消息
 - `DeepAgent` 处理对话
@@ -14,7 +14,7 @@
 
 ## What It Does
 
-- 对话闭环：`Telegram -> DeepAgent -> Telegram`
+- 当前对话闭环：`Telegram -> DeepAgent -> Telegram`
 - 显式长期记忆：只有用户明确要求时才写入长期记忆
 - 每日 `09:00` 简报调度
 - `tech` 域：最近技术博客更新
@@ -27,7 +27,7 @@
 
 ```mermaid
 flowchart LR
-    TG[Telegram Bot] --> RT[DeepAgent Runtime]
+    TG[Telegram Channel] --> RT[DeepAgent Runtime]
     RT --> MEM[DeepAgent Memory]
     RT --> TOOLS[Controlled Tools]
     TOOLS --> BLOGS[Tech Blogs]
@@ -52,7 +52,7 @@ assistant/
 ```
 
 - [core/](/Users/yuwenhao/Library/Mobile%20Documents/iCloud~md~obsidian/Documents/assistant/core) 放运行核心、抓取逻辑、digest 生成和 agent runtime
-- [channels/](/Users/yuwenhao/Library/Mobile%20Documents/iCloud~md~obsidian/Documents/assistant/channels) 放 Telegram 渠道接入
+- [channels/](/Users/yuwenhao/Library/Mobile%20Documents/iCloud~md~obsidian/Documents/assistant/channels) 放各渠道接入，当前已实现 Telegram
 - [skills/](/Users/yuwenhao/Library/Mobile%20Documents/iCloud~md~obsidian/Documents/assistant/skills) 放 DeepAgent 可读取的 skill 定义
 - [tests/](/Users/yuwenhao/Library/Mobile%20Documents/iCloud~md~obsidian/Documents/assistant/tests) 放回归测试
 
@@ -123,7 +123,7 @@ uv run python -m channels.telegram.main
 ## Design Choices
 
 - 保持单体进程，不拆服务
-- Telegram 先用 Bot API 长轮询，不上 webhook
+- 渠道层保持薄实现，当前先用 Telegram Bot API 长轮询
 - 对话理解交给 `DeepAgent`
 - 固定流程放在 `core/` 和 `skills/`
 - 主动推送由外部调度器触发
@@ -133,7 +133,7 @@ uv run python -m channels.telegram.main
 
 当前代码已具备：
 
-- 可运行的 Telegram 对话闭环
+- 可运行的 Telegram 对话闭环，后续可扩到飞书、微信等渠道
 - 可运行的 09:00 简报调度
 - 技术博客与新闻抓取工具
 - 安全默认值和回归测试
